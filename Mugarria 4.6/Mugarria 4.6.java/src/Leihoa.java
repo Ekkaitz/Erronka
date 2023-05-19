@@ -1,6 +1,8 @@
 import org.jdesktop.swingx.JXDatePicker;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +18,7 @@ public class Leihoa extends JFrame {
     private Konexioa konexioa;
     private DefaultComboBoxModel model;
     private DefaultListModel modelList;
+    private JLabel irudia;
 
     Leihoa(){
         this.setLayout(new GridLayout(2,2));
@@ -28,7 +31,7 @@ public class Leihoa extends JFrame {
         model=new DefaultComboBoxModel<>();
         argazkilariak=new JComboBox<>();
 
-        argazkilariak=argazkilariak();
+        argazkilariak.setModel(argazkilariak());
 
         batbat.add(photographers);
         batbat.add(argazkilariak);
@@ -51,6 +54,13 @@ public class Leihoa extends JFrame {
 
         //argazkia
         bibi=new JPanel();
+        irudia=new JLabel();
+
+        ImageIcon image= new ImageIcon("./img/Portrait of a cat.jpg");
+        this.irudia.setIcon(image);
+
+
+        bibi.add(irudia);
 
         //framera sartzen
         this.add(batbat);
@@ -65,39 +75,42 @@ public class Leihoa extends JFrame {
             }
         });
 
+        jList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                irudia();
+            }
+        });
 
-    }
+        public DefaultComboBoxModel argazkilariak(){
+            String select="select * from photographers";
+            PreparedStatement preparedStatement;
 
-    public JComboBox argazkilariak(){
+            try {
+                preparedStatement=konexioa.konexioa.prepareStatement(select);
+                ResultSet resultSet=preparedStatement.executeQuery();
 
-        String select="select * from photographers";
-        PreparedStatement preparedStatement;
+                while (resultSet.next()){
+                    int id=resultSet.getInt("photographer_id");
+                    String name=resultSet.getString("name");
+                    boolean award=resultSet.getBoolean("awarded");
 
-        try {
-            preparedStatement=konexioa.konexioa.prepareStatement(select);
-            ResultSet resultSet=preparedStatement.executeQuery();
+                    Photographer photographer=new Photographer(id,name,award);
 
-            while (resultSet.next()){
-                int id=resultSet.getInt("photographer_id");
-                String name=resultSet.getString("name");
-                boolean award=resultSet.getBoolean("awarded");
+                    model.addElement(photographer.getName());
+                    //System.out.println(resultSet.getString("name"));
+                }
 
-                Photographer photographer=new Photographer(id,name,award);
+                return model;
 
-                model.addElement(photographer.getName());
-                //System.out.println(resultSet.getString("name"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
 
-            JComboBox<String> a=new JComboBox<>();
-            a.setModel(model);
-
-            return a;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-
     }
+
+
 
     public void zerrendaBete(){
         JList<String> zerrenda=new JList<>();
@@ -109,7 +122,8 @@ public class Leihoa extends JFrame {
         PreparedStatement preparedStatementt;
 
         try {
-            artista= (String) this.argazkilariak().getSelectedItem();
+            this.modelList.clear();
+            artista=(String) argazkilariak.getSelectedItem();
             preparedStatementt=konexioa.konexioa.prepareStatement(selecta);
             preparedStatementt.setString(1,artista);
             ResultSet resultSett=preparedStatementt.executeQuery();
@@ -139,8 +153,16 @@ public class Leihoa extends JFrame {
     }
 
     public void irudia(){
+        String img= (String) jList.getSelectedValue()+".jpg";
+        System.out.println(img);
+
+        Image image= new ImageIcon(img).getImage();
+        ImageIcon imageIcon=new ImageIcon(image);
+        this.irudia.setIcon(imageIcon);
 
     }
+
+
 
 
 }

@@ -1,7 +1,5 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.*;
+import java.sql.*;
 
 public class Konexioa {
     public Connection konexioa;
@@ -9,6 +7,7 @@ public class Konexioa {
 
     private String erabiltzailea="root";
     private String pasahitza="zubiri";
+    private ListModel<String> modelList;
 
 
     public void konexioEgin(){
@@ -23,5 +22,10 @@ public class Konexioa {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void artistakBete(){
+        String selecta="select * from pictures where photographer_id= (select photographer_id from photographers where name= ?)";
+        Statement statement;
     }
 }
