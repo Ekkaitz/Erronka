@@ -8,14 +8,11 @@ import dbconection.Partiduak;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Nested;
 import window.Bilera;
 import window.Home;
 import window.Login;
 
-
 import javax.swing.*;
-
 import java.awt.event.MouseEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,7 +73,6 @@ class HomeTest {
 
 @Test
 @DisplayName("Crud eragiketak")
-@Nested
     public void crud(){
       Home home=new Home("admin");
       //select-a null ez izatea
@@ -85,7 +81,6 @@ class HomeTest {
 
 @Test
     @DisplayName("Bilera")
-    @Nested
     public void bilera(){
         Bilera bilera=new Bilera();
         JButton b=new JButton();
@@ -100,7 +95,6 @@ class HomeTest {
 
 @Test
     @DisplayName("Login")
-    @Nested
     public void login(){
         Home n=new Home("admin");
 
@@ -114,7 +108,6 @@ class HomeTest {
 
 @Test
     @DisplayName("Singin")
-    @Nested
     public void sing(){
 
         Login login=new Login();
@@ -125,7 +118,6 @@ class HomeTest {
 
     @Test
     @DisplayName("Hash")
-    @Nested
     public void t3(){
         String pass="pasahitza";
         assertNotNull(pass=HashPass.hasher(pass));
@@ -133,7 +125,6 @@ class HomeTest {
 
     @Test
     @DisplayName("Botoiak")
-    @Nested
     public void t4(){
         JPanel panel=new JPanel();
         MouseListenerBordeBotones a=new MouseListenerBordeBotones(panel);
@@ -142,7 +133,6 @@ class HomeTest {
 
     @Test
     @DisplayName("Estatistikak")
-    @Nested
     public void t5(){
         Estatistikak estatistikak=new Estatistikak(233,54,"ekaitz");
 
@@ -154,7 +144,6 @@ class HomeTest {
 
     @Test
     @DisplayName("Partiduak")
-    @Nested
     public void t6(){
         Partiduak partiduak=new Partiduak(1,"a","20-20","atzo");
 
@@ -167,7 +156,6 @@ class HomeTest {
 
     @Test
     @DisplayName("dbk2")
-    @Nested
     public void t7(){
         Dbconnection dbconnection=new Dbconnection();
 
@@ -180,7 +168,6 @@ class HomeTest {
 
     @Test
     @DisplayName("s")
-    @Nested
     public void t8(){
         JPanel panel=new JPanel();
         MouseEvent mouseEvent = null;

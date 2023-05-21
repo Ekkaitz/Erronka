@@ -1,9 +1,7 @@
 package window;
 
 import controller.MouseListenerBordeBotones;
-import dbconection.Dbconnection;
-import dbconection.Estatistikak;
-import dbconection.Partiduak;
+import dbconection.*;
 import model.BotonesNav;
 
 import javax.swing.*;
@@ -148,6 +146,10 @@ public class Home extends JFrame{
         MouseListenerBordeBotones ml17 = new MouseListenerBordeBotones(BotonesNav.getbSarrerak());
         bBilera.addMouseListener(ml17);
 
+        JButton bOrdutegia = ((JButton) BotonesNav.getbOrdutegia().getComponent(0));
+        MouseListenerBordeBotones ml18 = new MouseListenerBordeBotones(BotonesNav.getbSarrerak());
+        bOrdutegia.addMouseListener(ml18);
+
         botoiakSartu(mota);
 
 
@@ -270,6 +272,11 @@ public class Home extends JFrame{
 
         nagusia.add(cardEstatistikak, "cardEstatistikak");
 
+
+        //Ordutegia
+        JPanel cardordutegia = new JPanel();
+        nagusia.add(cardordutegia, "cardordutegia");
+
         //Sarrerak erosteko panela
         JPanel cardSarrerak = new JPanel();
 
@@ -341,12 +348,8 @@ public class Home extends JFrame{
 
         // Creamos la tabla
         JTable tabla = new JTable(datos, columnas);
-
-        // Añadimos la tabla a un JScrollPane
-        JScrollPane scrollPane = new JScrollPane(tabla);
-
         // Añadimos el JScrollPane a la ventana
-        cardTraspasoak.add(scrollPane);
+        cardTraspasoak.add(tabla);
 
 
         nagusia.add(cardTraspasoak, "cardTraspasoak");
@@ -466,7 +469,25 @@ public class Home extends JFrame{
             }
         });
 
+        bOrdutegia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JLabel l_ordutegia=new JLabel();
+                l_ordutegia.setLayout(new BoxLayout(l_ordutegia,BoxLayout.Y_AXIS));
+                Kontsultak kontsultak=new Kontsultak();
+                ArrayList<Ordutegia> ordutegiak =new ArrayList<>();
+                ordutegiak=kontsultak.entrenamenduordutegia();
 
+                for (int i = 0; i < ordutegiak.size(); i++) {
+                    JLabel l_ordua=new JLabel();
+                    l_ordua.setText(ordutegiak.get(i).getIzena()+ " "+ordutegiak.get(i).getH_data() );
+                    l_ordutegia.add(l_ordua);
+                }
+
+                cardordutegia.add(l_ordutegia);
+
+            }
+        });
 
     }
 
@@ -521,6 +542,7 @@ public class Home extends JFrame{
             Lnav.add(BotonesNav.getbBilera());
             Lnav.add(BotonesNav.getbEstatistikak());
             Lnav.add(BotonesNav.getbPartiduak());
+            Lnav.add(BotonesNav.getbOrdutegia());
 
         }else if (mota.equals("bazkidea")) {
             Lnav.add(BotonesNav.getbEstatistikak());
@@ -535,14 +557,11 @@ public class Home extends JFrame{
             Lnav.add(BotonesNav.getbPartiduak());
             Lnav.add(BotonesNav.getbBilera());
             Lnav.add(BotonesNav.getBtraspasoak());
+            Lnav.add(BotonesNav.getbOrdutegia());
         }
         this.add(Lnav,BorderLayout.WEST);
 
     }
-
-
-
-
 
 
 

@@ -12,6 +12,7 @@ public class BotonesNav {
     private static JPanel bPartiduak = crearBoton("Partiduak");
     private static JPanel bBilera = crearBoton("Bilera");
     private static JPanel btraspasoak = crearBoton("Traspasoak");
+    private static JPanel bOrdutegia = crearBoton("Ordutegia");
 
     private ArrayList<JPanel> botoiak = new ArrayList<>();
 
@@ -65,6 +66,10 @@ public class BotonesNav {
 
     public static JPanel getBtraspasoak() {
         return btraspasoak;
+    }
+
+    public static JPanel getbOrdutegia() {
+        return bOrdutegia;
     }
 
     public static JPanel getbBilera() {
